@@ -1,0 +1,633 @@
+Percona Performance Consulting Experts
+BLOG / FORUMS / ONLINE TOOLS / PERCONA LIVE / SUPPORT PORTAL / CONTACT
+GET 24/7 LIVE HELP NOW
+
+    Services
+    Software
+    Resources
+    News & Events
+    Community
+    About 
+
+
+PERCONA MYSQL PERFORMANCE BLOG
+
+Percona's MySQL & InnoDB performance and scalability blog
+PERCONA.COM / COMMUNITY / PERFORMANCE BLOG / Benchmarks / MySQL’s INNODB_METRICS table: How much is the overhead?
+MySQL’s INNODB_METRICS table: How much is the overhead?
+
+November 18, 2014 by Peter Zaitsev
+inShare26
+
+PREVIOUS POST
+NEXT POST
+
+Starting with MySQL 5.6 there is an INNODB_METRICS table available in INFORMATION_SCHEMA which contains some additional information than provided in the SHOW GLOBAL STATUS output – yet might be more lightweight than PERFORMANCE_SCHEMA.
+
+Too bad INNODB_METRICS was designed during the Oracle-Sun split under MySQL leadership and so it covers only InnoDB counters. I think this would be a great replacement to all counters that are currently provided though SHOW STATUS – it captures more information such as providing MIN/MAX counts for variables as well as providing the type of the counter (whenever it is current or commutative) as well as human readable comment – describing what such counter means.
+
+The examples of data you can get only from the INNODB_METRICS table includes information about InnoDB Page Splits and merging (which can cause quite an impact to the database performance).
+
+As well as details of InnoDB purging performance, adaptive hash index activity, details about InnoDB flushing or how index condition pushdown (ICP) is working for you.
+
+The InnoDB Metrics come disabled by default as of MySQL 5.6 and it provides very elaborate configuration commands – you can enable/disable individual counters or counters for specific subsystems you’re interested in. I would expect most users though would need only basic configuration:
+Shell
+set global innodb_monitor_disable = all;
+set global innodb_monitor_enable = all;
+1
+2
+	
+set global innodb_monitor_disable = all;
+set global innodb_monitor_enable = all;
+
+…which enables and disables all InnoDB Metrics appropriately. Of course if you just rather keep changes permanently you would want to keep it as a setting in the MySQL Configuration file. Small side note – some of the InnoDB metrics correspond to SHOW STATUS counters and those are permanently enabled.
+
+As those metrics are disabled by default I was wondering if they really do have so huge a overhead that we can’t keep them enabled. In my tests I’ve measured less than 1% overhead, really the variance between runs of benchmark was larger than caused by having metrics enabled. It might be on very large systems with heavy workloads that the overhead might be higher – if you observe any significant overhead from using INNODB_METRICS please comment on this post so we know.
+
+Finally let me post a selection of metrics that have been actively running a simple sysbench test, in total there are 214 metrics as of the current MySQL 5.6 release.
+Shell
+mysql> select name,count,round(avg_count,3) avg_cnt ,type,comment from innodb_metrics where count>0 or max_count>0;
++------------------------------------------+---------------+--------------+----------------+-------------------------------------------------------------------------------------------------------------------+
+| name                                     | count         | avg_cnt      | type           | comment                                                                                                           |
++------------------------------------------+---------------+--------------+----------------+-------------------------------------------------------------------------------------------------------------------+
+| metadata_table_handles_opened            |             1 |        0.000 | counter        | Number of table handles opened                                                                                    |
+| metadata_table_reference_count           |            -6 |       -0.000 | counter        | Table reference counter                                                                                           |
+| metadata_mem_pool_size                   |       8388608 |         NULL | value          | Size of a memory pool InnoDB uses to store data dictionary and internal data structures in bytes                  |
+| lock_deadlocks                           |           521 |        0.002 | counter        | Number of deadlocks                                                                                               |
+| lock_timeouts                            |          6857 |        0.027 | counter        | Number of lock timeouts                                                                                           |
+| lock_rec_lock_waits                      |       1837441 |       16.150 | counter        | Number of times enqueued into record lock wait queue                                                              |
+| lock_rec_lock_requests                   |      65270862 |      573.694 | counter        | Number of record locks requested                                                                                  |
+| lock_rec_lock_created                    |      36872834 |      324.091 | counter        | Number of record locks created                                                                                    |
+| lock_rec_lock_removed                    |      36872830 |      324.091 | counter        | Number of record locks removed from the lock queue                                                                |
+| lock_rec_locks                           |             4 |        0.000 | counter        | Current number of record locks on tables                                                                          |
+| lock_table_lock_created                  |      12239169 |      107.575 | counter        | Number of table locks created                                                                                     |
+| lock_table_lock_removed                  |      12239165 |      107.575 | counter        | Number of table locks removed from the lock queue                                                                 |
+| lock_table_locks                         |             4 |        0.000 | counter        | Current number of table locks on tables                                                                           |
+| lock_row_lock_current_waits              |            55 |        0.000 | status_counter | Number of row locks currently being waited for (innodb_row_lock_current_waits)                                    |
+| lock_row_lock_time                       |    1936523774 |     7548.123 | status_counter | Time spent in acquiring row locks, in milliseconds (innodb_row_lock_time)                                         |
+| lock_row_lock_time_max                   |         51969 |         NULL | value          | The maximum time to acquire a row lock, in milliseconds (innodb_row_lock_time_max)                                |
+| lock_row_lock_waits                      |       1901237 |        7.411 | status_counter | Number of times a row lock had to be waited for (innodb_row_lock_waits)                                           |
+| lock_row_lock_time_avg                   |          1018 |         NULL | value          | The average time to acquire a row lock, in milliseconds (innodb_row_lock_time_avg)                                |
+| buffer_pool_size                         |    6442450944 |         NULL | value          | Server buffer pool size (all buffer pools) in bytes                                                               |
+| buffer_pool_reads                        |     370556494 |     1444.344 | status_counter | Number of reads directly from disk (innodb_buffer_pool_reads)                                                     |
+| buffer_pool_read_requests                |   48016336694 |   187156.603 | status_counter | Number of logical read requests (innodb_buffer_pool_read_requests)                                                |
+| buffer_pool_write_requests               |    4273025649 |    16655.268 | status_counter | Number of write requests (innodb_buffer_pool_write_requests)                                                      |
+| buffer_pool_read_ahead                   |       6461109 |       25.184 | status_counter | Number of pages read as read ahead (innodb_buffer_pool_read_ahead)                                                |
+| buffer_pool_pages_total                  |        393208 |         NULL | value          | Total buffer pool size in pages (innodb_buffer_pool_pages_total)                                                  |
+| buffer_pool_pages_misc                   |            13 |         NULL | value          | Buffer pages for misc use such as row locks or the adaptive hash index (innodb_buffer_pool_pages_misc)            |
+| buffer_pool_pages_data                   |        387844 |         NULL | value          | Buffer pages containing data (innodb_buffer_pool_pages_data)                                                      |
+| buffer_pool_bytes_data                   |    6354436096 |         NULL | value          | Buffer bytes containing data (innodb_buffer_pool_bytes_data)                                                      |
+| buffer_pool_pages_dirty                  |          2646 |         NULL | value          | Buffer pages currently dirty (innodb_buffer_pool_pages_dirty)                                                     |
+| buffer_pool_bytes_dirty                  |      43352064 |         NULL | value          | Buffer bytes currently dirty (innodb_buffer_pool_bytes_dirty)                                                     |
+| buffer_pool_pages_free                   |          5351 |         NULL | value          | Buffer pages currently free (innodb_buffer_pool_pages_free)                                                       |
+| buffer_pages_created                     |      15712031 |       61.242 | status_counter | Number of pages created (innodb_pages_created)                                                                    |
+| buffer_pages_written                     |      88472873 |      344.847 | status_counter | Number of pages written (innodb_pages_written)                                                                    |
+| buffer_pages_read                        |     389195724 |     1516.995 | status_counter | Number of pages read (innodb_pages_read)                                                                          |
+| buffer_data_reads                        | 6370189115392 | 24829527.611 | status_counter | Amount of data read in bytes (innodb_data_reads)                                                                  |
+| buffer_data_written                      | 3238687916032 | 12623658.353 | status_counter | Amount of data written in bytes (innodb_data_written)                                                             |
+| buffer_flush_batch_scanned               |        303528 |        0.000 | set_owner      | Total pages scanned as part of flush batch                                                                        |
+| buffer_flush_batch_num_scan              |       1066763 |        9.376 | set_member     | Number of times buffer flush list flush is called                                                                 |
+| buffer_flush_batch_scanned_per_call      |             0 |        0.000 | set_member     | Pages scanned per flush batch scan                                                                                |
+| buffer_flush_batch_rescan                |            89 |        0.001 | counter        | Number of times rescan of flush list forced                                                                       |
+| buffer_flush_batch_total_pages           |        634250 |        3.000 | set_owner      | Total pages flushed as part of flush batch                                                                        |
+| buffer_flush_batches                     |        197859 |        1.739 | set_member     | Number of flush batches                                                                                           |
+| buffer_flush_batch_pages                 |             1 |        0.000 | set_member     | Pages queued as a flush batch                                                                                     |
+| buffer_flush_neighbor_total_pages        |       6051959 |        0.000 | set_owner      | Total neighbors flushed as part of neighbor flush                                                                 |
+| buffer_flush_neighbor                    |      34246946 |      301.011 | set_member     | Number of times neighbors flushing is invoked                                                                     |
+| buffer_flush_neighbor_pages              |             0 |        0.000 | set_member     | Pages queued as a neighbor batch                                                                                  |
+| buffer_flush_n_to_flush_requested        |             0 |        0.000 | counter        | Number of pages requested for flushing.                                                                           |
+| buffer_flush_avg_page_rate               |             0 |        0.000 | counter        | Average number of pages at which flushing is happening                                                            |
+| buffer_flush_lsn_avg_rate                |         16570 |        0.146 | counter        | Average redo generation rate                                                                                      |
+| buffer_flush_pct_for_lsn                 |             0 |        0.000 | counter        | Percent of IO capacity used to avoid reusable redo space limit                                                    |
+| buffer_flush_adaptive_total_pages        |        631237 |       11.000 | set_owner      | Total pages flushed as part of adaptive flushing                                                                  |
+| buffer_flush_adaptive                    |         56061 |        0.493 | set_member     | Number of adaptive batches                                                                                        |
+| buffer_flush_adaptive_pages              |             1 |        0.000 | set_member     | Pages queued as an adaptive batch                                                                                 |
+| buffer_flush_background_total_pages      |      39668544 |      420.000 | set_owner      | Total pages flushed as part of background batches                                                                 |
+| buffer_flush_background                  |         94284 |        0.829 | set_member     | Number of background batches                                                                                      |
+| buffer_flush_background_pages            |            26 |        0.000 | set_member     | Pages queued as a background batch                                                                                |
+| buffer_LRU_batch_scanned                 |    5664563354 |     3153.000 | set_owner      | Total pages scanned as part of LRU batch                                                                          |
+| buffer_LRU_batch_num_scan                |       1796523 |       15.790 | set_member     | Number of times LRU batch is called                                                                               |
+| buffer_LRU_batch_scanned_per_call        |          2748 |        0.024 | set_member     | Pages scanned per LRU batch call                                                                                  |
+| buffer_LRU_batch_total_pages             |      39665531 |      420.000 | set_owner      | Total pages flushed as part of LRU batches                                                                        |
+| buffer_LRU_batches                       |         94281 |        0.829 | set_member     | Number of LRU batches                                                                                             |
+| buffer_LRU_batch_pages                   |            26 |        0.000 | set_member     | Pages queued as an LRU batch                                                                                      |
+| buffer_LRU_get_free_search               |     378687232 |     3328.446 | counter        | Number of searches performed for a clean page                                                                     |
+| os_data_reads                            |     389095626 |     1516.605 | status_counter | Number of reads initiated (innodb_data_reads)                                                                     |
+| os_data_writes                           |      93493818 |      364.417 | status_counter | Number of writes initiated (innodb_data_writes)                                                                   |
+| os_data_fsyncs                           |       7023487 |       27.376 | status_counter | Number of fsync() calls (innodb_data_fsyncs)                                                                      |
+| os_log_bytes_written                     |  339601504256 |  1323688.320 | status_counter | Bytes of log written (innodb_os_log_written)                                                                      |
+| os_log_fsyncs                            |       2181429 |        8.503 | status_counter | Number of fsync log writes (innodb_os_log_fsyncs)                                                                 |
+| os_log_pending_fsyncs                    |             0 |        0.000 | status_counter | Number of pending fsync write (innodb_os_log_pending_fsyncs)                                                      |
+| os_log_pending_writes                    |             0 |        0.000 | status_counter | Number of pending log file writes (innodb_os_log_pending_writes)                                                  |
+| trx_rw_commits                           |      12239165 |      107.575 | counter        | Number of read-write transactions committed                                                                       |
+| trx_commits_insert_update                |      12223766 |      107.440 | counter        | Number of transactions committed with inserts and updates                                                         |
+| trx_rollbacks                            |          2073 |        0.018 | counter        | Number of transactions rolled back                                                                                |
+| trx_rollbacks_savepoint                  |          6860 |        0.060 | counter        | Number of transactions rolled back to savepoint                                                                   |
+| trx_active_transactions                  |        -10769 |       -0.095 | counter        | Number of active transactions                                                                                     |
+| trx_rseg_history_len                     |       9469305 |         NULL | value          | Length of the TRX_RSEG_HISTORY list                                                                               |
+| trx_undo_slots_used                      |            81 |        0.001 | counter        | Number of undo slots used                                                                                         |
+| trx_undo_slots_cached                    |        -16487 |       -0.145 | counter        | Number of undo slots cached                                                                                       |
+| trx_rseg_current_size                    |        498385 |         NULL | value          | Current rollback segment size in pages                                                                            |
+| purge_del_mark_records                   |       2900462 |       25.493 | counter        | Number of delete-marked rows purged                                                                               |
+| purge_upd_exist_or_extern_records        |       2900334 |       25.492 | counter        | Number of purges on updates of existing records and  updates on delete marked record with externally stored field |
+| purge_invoked                            |      15036193 |      132.160 | counter        | Number of times purge was invoked                                                                                 |
+| purge_undo_log_pages                     |       2901506 |       25.503 | counter        | Number of undo log pages handled by the purge                                                                     |
+| log_checkpoints                          |          7880 |        0.069 | counter        | Number of checkpoints                                                                                             |
+| log_lsn_last_flush                       |  338495604612 |         NULL | value          | LSN of Last flush                                                                                                 |
+| log_lsn_last_checkpoint                  |  337905680629 |         NULL | value          | LSN at last checkpoint                                                                                            |
+| log_lsn_current                          |  338495612626 |         NULL | value          | Current LSN value                                                                                                 |
+| log_lsn_checkpoint_age                   |     589931997 |     5185.167 | counter        | Current LSN value minus LSN at last checkpoint                                                                    |
+| log_lsn_buf_pool_oldest                  |  337905680629 |         NULL | value          | The oldest modified block LSN in the buffer pool                                                                  |
+| log_max_modified_age_async               |    6087493925 |         NULL | value          | Maximum LSN difference; when exceeded, start asynchronous preflush                                                |
+| log_max_modified_age_sync                |    6522314920 |         NULL | value          | Maximum LSN difference; when exceeded, start synchronous preflush                                                 |
+| log_pending_checkpoint_writes            |             0 |        0.000 | counter        | Pending checkpoints                                                                                               |
+| log_num_log_io                           |       1618018 |       14.221 | counter        | Number of log I/Os                                                                                                |
+| log_write_requests                       |     733043164 |     2857.233 | status_counter | Number of log write requests (innodb_log_write_requests)                                                          |
+| log_writes                               |       2160056 |        8.419 | status_counter | Number of log writes (innodb_log_writes)                                                                          |
+| index_page_splits                        |        725862 |        6.380 | counter        | Number of index page splits                                                                                       |
+| index_page_merge_attempts                |       6318656 |       55.537 | counter        | Number of index page merge attempts                                                                               |
+| index_page_merge_successful              |        600659 |        5.279 | counter        | Number of successful index page merges                                                                            |
+| index_page_reorg_attempts                |        324359 |        2.851 | counter        | Number of index page reorganization attempts                                                                      |
+| index_page_reorg_successful              |        324359 |        2.851 | counter        | Number of successful index page reorganizations                                                                   |
+| index_page_discards                      |           850 |        0.007 | counter        | Number of index pages discarded                                                                                   |
+| adaptive_hash_searches                   |     996683138 |     3884.841 | status_counter | Number of successful searches using Adaptive Hash Index                                                           |
+| adaptive_hash_pages_added                |       6787699 |       59.660 | counter        | Number of index pages on which the Adaptive Hash Index is built                                                   |
+| adaptive_hash_pages_removed              |       6165530 |       54.192 | counter        | Number of index pages whose corresponding Adaptive Hash Index entries were removed                                |
+| adaptive_hash_rows_added                 |     971809814 |     8541.656 | counter        | Number of Adaptive Hash Index rows added                                                                          |
+| adaptive_hash_rows_removed               |     450086501 |     3956.005 | counter        | Number of Adaptive Hash Index rows removed                                                                        |
+| adaptive_hash_rows_deleted_no_hash_entry |            59 |        0.001 | counter        | Number of rows deleted that did not have corresponding Adaptive Hash Index entries                                |
+| file_num_open_files                      |             4 |         NULL | value          | Number of files currently open (innodb_num_open_files)                                                            |
+| ibuf_merges_insert                       |     281620042 |     1097.690 | status_counter | Number of inserted records merged by change buffering                                                             |
+| ibuf_merges_delete_mark                  |      21569667 |       84.074 | status_counter | Number of deleted records merged by change buffering                                                              |
+| ibuf_merges_delete                       |       3332320 |       12.989 | status_counter | Number of purge records merged by change buffering                                                                |
+| ibuf_merges                              |      13938295 |       54.328 | status_counter | Number of change buffer merges                                                                                    |
+| ibuf_size                                |         17478 |        0.068 | status_counter | Change buffer size in pages                                                                                       |
+| innodb_master_thread_sleeps              |         82021 |        0.721 | counter        | Number of times (seconds) master thread sleeps                                                                    |
+| innodb_activity_count                    |     167679087 |      653.574 | status_counter | Current server activity count                                                                                     |
+| innodb_master_active_loops               |         82021 |        0.721 | counter        | Number of times master thread performs its tasks when server is active                                            |
+| innodb_background_drop_table_usec        |         58451 |        0.514 | counter        | Time (in microseconds) spent to process drop table list                                                           |
+| innodb_ibuf_merge_usec                   |    2815277852 |    24744.692 | counter        | Time (in microseconds) spent to process change buffer merge                                                       |
+| innodb_log_flush_usec                    |    2843869697 |    24995.998 | counter        | Time (in microseconds) spent to flush log records                                                                 |
+| innodb_dict_lru_usec                     |   25556359671 |   224625.875 | counter        | Time (in microseconds) spent to process DICT LRU list                                                             |
+| innodb_checkpoint_usec                   |     417383675 |     3668.565 | counter        | Time (in microseconds) spent by master thread to do checkpoint                                                    |
+| innodb_dblwr_writes                      |       1991948 |        7.764 | status_counter | Number of doublewrite operations that have been performed (innodb_dblwr_writes)                                   |
+| innodb_dblwr_pages_written               |      88472873 |      344.847 | status_counter | Number of pages that have been written for doublewrite operations (innodb_dblwr_pages_written)                    |
+| innodb_page_size                         |         16384 |         NULL | value          | InnoDB page size in bytes (innodb_page_size)                                                                      |
+| innodb_rwlock_s_spin_waits               |      48060144 |      187.327 | status_counter | Number of rwlock spin waits due to shared latch request                                                           |
+| innodb_rwlock_x_spin_waits               |       5197488 |       20.259 | status_counter | Number of rwlock spin waits due to exclusive latch request                                                        |
+| innodb_rwlock_s_spin_rounds              |    1476389094 |     5754.624 | status_counter | Number of rwlock spin loop rounds due to shared latch request                                                     |
+| innodb_rwlock_x_spin_rounds              |     434074879 |     1691.924 | status_counter | Number of rwlock spin loop rounds due to exclusive latch request                                                  |
+| innodb_rwlock_s_os_waits                 |      42616148 |      166.108 | status_counter | Number of OS waits due to shared latch request                                                                    |
+| innodb_rwlock_x_os_waits                 |      11139632 |       43.420 | status_counter | Number of OS waits due to exclusive latch request                                                                 |
+| dml_reads                                |    5382057652 |    20978.019 | status_counter | Number of rows read                                                                                               |
+| dml_inserts                              |    1012583832 |     3946.818 | status_counter | Number of rows inserted                                                                                           |
+| dml_deletes                              |      12583838 |       49.049 | status_counter | Number of rows deleted                                                                                            |
+| dml_updates                              |      25177697 |       98.137 | status_counter | Number of rows updated                                                                                            |
++------------------------------------------+---------------+--------------+----------------+-------------------------------------------------------------------------------------------------------------------+
+133 rows in set (0.00 sec)
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+	
+mysql> select name,count,round(avg_count,3) avg_cnt ,type,comment from innodb_metrics where count>0 or max_count>0;
++------------------------------------------+---------------+--------------+----------------+-------------------------------------------------------------------------------------------------------------------+
+| name                                     | count         | avg_cnt      | type           | comment                                                                                                           |
++------------------------------------------+---------------+--------------+----------------+-------------------------------------------------------------------------------------------------------------------+
+| metadata_table_handles_opened            |             1 |        0.000 | counter        | Number of table handles opened                                                                                    |
+| metadata_table_reference_count           |            -6 |       -0.000 | counter        | Table reference counter                                                                                           |
+| metadata_mem_pool_size                   |       8388608 |         NULL | value          | Size of a memory pool InnoDB uses to store data dictionary and internal data structures in bytes                  |
+| lock_deadlocks                           |           521 |        0.002 | counter        | Number of deadlocks                                                                                               |
+| lock_timeouts                            |          6857 |        0.027 | counter        | Number of lock timeouts                                                                                           |
+| lock_rec_lock_waits                      |       1837441 |       16.150 | counter        | Number of times enqueued into record lock wait queue                                                              |
+| lock_rec_lock_requests                   |      65270862 |      573.694 | counter        | Number of record locks requested                                                                                  |
+| lock_rec_lock_created                    |      36872834 |      324.091 | counter        | Number of record locks created                                                                                    |
+| lock_rec_lock_removed                    |      36872830 |      324.091 | counter        | Number of record locks removed from the lock queue                                                                |
+| lock_rec_locks                           |             4 |        0.000 | counter        | Current number of record locks on tables                                                                          |
+| lock_table_lock_created                  |      12239169 |      107.575 | counter        | Number of table locks created                                                                                     |
+| lock_table_lock_removed                  |      12239165 |      107.575 | counter        | Number of table locks removed from the lock queue                                                                 |
+| lock_table_locks                         |             4 |        0.000 | counter        | Current number of table locks on tables                                                                           |
+| lock_row_lock_current_waits              |            55 |        0.000 | status_counter | Number of row locks currently being waited for (innodb_row_lock_current_waits)                                    |
+| lock_row_lock_time                       |    1936523774 |     7548.123 | status_counter | Time spent in acquiring row locks, in milliseconds (innodb_row_lock_time)                                         |
+| lock_row_lock_time_max                   |         51969 |         NULL | value          | The maximum time to acquire a row lock, in milliseconds (innodb_row_lock_time_max)                                |
+| lock_row_lock_waits                      |       1901237 |        7.411 | status_counter | Number of times a row lock had to be waited for (innodb_row_lock_waits)                                           |
+| lock_row_lock_time_avg                   |          1018 |         NULL | value          | The average time to acquire a row lock, in milliseconds (innodb_row_lock_time_avg)                                |
+| buffer_pool_size                         |    6442450944 |         NULL | value          | Server buffer pool size (all buffer pools) in bytes                                                               |
+| buffer_pool_reads                        |     370556494 |     1444.344 | status_counter | Number of reads directly from disk (innodb_buffer_pool_reads)                                                     |
+| buffer_pool_read_requests                |   48016336694 |   187156.603 | status_counter | Number of logical read requests (innodb_buffer_pool_read_requests)                                                |
+| buffer_pool_write_requests               |    4273025649 |    16655.268 | status_counter | Number of write requests (innodb_buffer_pool_write_requests)                                                      |
+| buffer_pool_read_ahead                   |       6461109 |       25.184 | status_counter | Number of pages read as read ahead (innodb_buffer_pool_read_ahead)                                                |
+| buffer_pool_pages_total                  |        393208 |         NULL | value          | Total buffer pool size in pages (innodb_buffer_pool_pages_total)                                                  |
+| buffer_pool_pages_misc                   |            13 |         NULL | value          | Buffer pages for misc use such as row locks or the adaptive hash index (innodb_buffer_pool_pages_misc)            |
+| buffer_pool_pages_data                   |        387844 |         NULL | value          | Buffer pages containing data (innodb_buffer_pool_pages_data)                                                      |
+| buffer_pool_bytes_data                   |    6354436096 |         NULL | value          | Buffer bytes containing data (innodb_buffer_pool_bytes_data)                                                      |
+| buffer_pool_pages_dirty                  |          2646 |         NULL | value          | Buffer pages currently dirty (innodb_buffer_pool_pages_dirty)                                                     |
+| buffer_pool_bytes_dirty                  |      43352064 |         NULL | value          | Buffer bytes currently dirty (innodb_buffer_pool_bytes_dirty)                                                     |
+| buffer_pool_pages_free                   |          5351 |         NULL | value          | Buffer pages currently free (innodb_buffer_pool_pages_free)                                                       |
+| buffer_pages_created                     |      15712031 |       61.242 | status_counter | Number of pages created (innodb_pages_created)                                                                    |
+| buffer_pages_written                     |      88472873 |      344.847 | status_counter | Number of pages written (innodb_pages_written)                                                                    |
+| buffer_pages_read                        |     389195724 |     1516.995 | status_counter | Number of pages read (innodb_pages_read)                                                                          |
+| buffer_data_reads                        | 6370189115392 | 24829527.611 | status_counter | Amount of data read in bytes (innodb_data_reads)                                                                  |
+| buffer_data_written                      | 3238687916032 | 12623658.353 | status_counter | Amount of data written in bytes (innodb_data_written)                                                             |
+| buffer_flush_batch_scanned               |        303528 |        0.000 | set_owner      | Total pages scanned as part of flush batch                                                                        |
+| buffer_flush_batch_num_scan              |       1066763 |        9.376 | set_member     | Number of times buffer flush list flush is called                                                                 |
+| buffer_flush_batch_scanned_per_call      |             0 |        0.000 | set_member     | Pages scanned per flush batch scan                                                                                |
+| buffer_flush_batch_rescan                |            89 |        0.001 | counter        | Number of times rescan of flush list forced                                                                       |
+| buffer_flush_batch_total_pages           |        634250 |        3.000 | set_owner      | Total pages flushed as part of flush batch                                                                        |
+| buffer_flush_batches                     |        197859 |        1.739 | set_member     | Number of flush batches                                                                                           |
+| buffer_flush_batch_pages                 |             1 |        0.000 | set_member     | Pages queued as a flush batch                                                                                     |
+| buffer_flush_neighbor_total_pages        |       6051959 |        0.000 | set_owner      | Total neighbors flushed as part of neighbor flush                                                                 |
+| buffer_flush_neighbor                    |      34246946 |      301.011 | set_member     | Number of times neighbors flushing is invoked                                                                     |
+| buffer_flush_neighbor_pages              |             0 |        0.000 | set_member     | Pages queued as a neighbor batch                                                                                  |
+| buffer_flush_n_to_flush_requested        |             0 |        0.000 | counter        | Number of pages requested for flushing.                                                                           |
+| buffer_flush_avg_page_rate               |             0 |        0.000 | counter        | Average number of pages at which flushing is happening                                                            |
+| buffer_flush_lsn_avg_rate                |         16570 |        0.146 | counter        | Average redo generation rate                                                                                      |
+| buffer_flush_pct_for_lsn                 |             0 |        0.000 | counter        | Percent of IO capacity used to avoid reusable redo space limit                                                    |
+| buffer_flush_adaptive_total_pages        |        631237 |       11.000 | set_owner      | Total pages flushed as part of adaptive flushing                                                                  |
+| buffer_flush_adaptive                    |         56061 |        0.493 | set_member     | Number of adaptive batches                                                                                        |
+| buffer_flush_adaptive_pages              |             1 |        0.000 | set_member     | Pages queued as an adaptive batch                                                                                 |
+| buffer_flush_background_total_pages      |      39668544 |      420.000 | set_owner      | Total pages flushed as part of background batches                                                                 |
+| buffer_flush_background                  |         94284 |        0.829 | set_member     | Number of background batches                                                                                      |
+| buffer_flush_background_pages            |            26 |        0.000 | set_member     | Pages queued as a background batch                                                                                |
+| buffer_LRU_batch_scanned                 |    5664563354 |     3153.000 | set_owner      | Total pages scanned as part of LRU batch                                                                          |
+| buffer_LRU_batch_num_scan                |       1796523 |       15.790 | set_member     | Number of times LRU batch is called                                                                               |
+| buffer_LRU_batch_scanned_per_call        |          2748 |        0.024 | set_member     | Pages scanned per LRU batch call                                                                                  |
+| buffer_LRU_batch_total_pages             |      39665531 |      420.000 | set_owner      | Total pages flushed as part of LRU batches                                                                        |
+| buffer_LRU_batches                       |         94281 |        0.829 | set_member     | Number of LRU batches                                                                                             |
+| buffer_LRU_batch_pages                   |            26 |        0.000 | set_member     | Pages queued as an LRU batch                                                                                      |
+| buffer_LRU_get_free_search               |     378687232 |     3328.446 | counter        | Number of searches performed for a clean page                                                                     |
+| os_data_reads                            |     389095626 |     1516.605 | status_counter | Number of reads initiated (innodb_data_reads)                                                                     |
+| os_data_writes                           |      93493818 |      364.417 | status_counter | Number of writes initiated (innodb_data_writes)                                                                   |
+| os_data_fsyncs                           |       7023487 |       27.376 | status_counter | Number of fsync() calls (innodb_data_fsyncs)                                                                      |
+| os_log_bytes_written                     |  339601504256 |  1323688.320 | status_counter | Bytes of log written (innodb_os_log_written)                                                                      |
+| os_log_fsyncs                            |       2181429 |        8.503 | status_counter | Number of fsync log writes (innodb_os_log_fsyncs)                                                                 |
+| os_log_pending_fsyncs                    |             0 |        0.000 | status_counter | Number of pending fsync write (innodb_os_log_pending_fsyncs)                                                      |
+| os_log_pending_writes                    |             0 |        0.000 | status_counter | Number of pending log file writes (innodb_os_log_pending_writes)                                                  |
+| trx_rw_commits                           |      12239165 |      107.575 | counter        | Number of read-write transactions committed                                                                       |
+| trx_commits_insert_update                |      12223766 |      107.440 | counter        | Number of transactions committed with inserts and updates                                                         |
+| trx_rollbacks                            |          2073 |        0.018 | counter        | Number of transactions rolled back                                                                                |
+| trx_rollbacks_savepoint                  |          6860 |        0.060 | counter        | Number of transactions rolled back to savepoint                                                                   |
+| trx_active_transactions                  |        -10769 |       -0.095 | counter        | Number of active transactions                                                                                     |
+| trx_rseg_history_len                     |       9469305 |         NULL | value          | Length of the TRX_RSEG_HISTORY list                                                                               |
+| trx_undo_slots_used                      |            81 |        0.001 | counter        | Number of undo slots used                                                                                         |
+| trx_undo_slots_cached                    |        -16487 |       -0.145 | counter        | Number of undo slots cached                                                                                       |
+| trx_rseg_current_size                    |        498385 |         NULL | value          | Current rollback segment size in pages                                                                            |
+| purge_del_mark_records                   |       2900462 |       25.493 | counter        | Number of delete-marked rows purged                                                                               |
+| purge_upd_exist_or_extern_records        |       2900334 |       25.492 | counter        | Number of purges on updates of existing records and  updates on delete marked record with externally stored field |
+| purge_invoked                            |      15036193 |      132.160 | counter        | Number of times purge was invoked                                                                                 |
+| purge_undo_log_pages                     |       2901506 |       25.503 | counter        | Number of undo log pages handled by the purge                                                                     |
+| log_checkpoints                          |          7880 |        0.069 | counter        | Number of checkpoints                                                                                             |
+| log_lsn_last_flush                       |  338495604612 |         NULL | value          | LSN of Last flush                                                                                                 |
+| log_lsn_last_checkpoint                  |  337905680629 |         NULL | value          | LSN at last checkpoint                                                                                            |
+| log_lsn_current                          |  338495612626 |         NULL | value          | Current LSN value                                                                                                 |
+| log_lsn_checkpoint_age                   |     589931997 |     5185.167 | counter        | Current LSN value minus LSN at last checkpoint                                                                    |
+| log_lsn_buf_pool_oldest                  |  337905680629 |         NULL | value          | The oldest modified block LSN in the buffer pool                                                                  |
+| log_max_modified_age_async               |    6087493925 |         NULL | value          | Maximum LSN difference; when exceeded, start asynchronous preflush                                                |
+| log_max_modified_age_sync                |    6522314920 |         NULL | value          | Maximum LSN difference; when exceeded, start synchronous preflush                                                 |
+| log_pending_checkpoint_writes            |             0 |        0.000 | counter        | Pending checkpoints                                                                                               |
+| log_num_log_io                           |       1618018 |       14.221 | counter        | Number of log I/Os                                                                                                |
+| log_write_requests                       |     733043164 |     2857.233 | status_counter | Number of log write requests (innodb_log_write_requests)                                                          |
+| log_writes                               |       2160056 |        8.419 | status_counter | Number of log writes (innodb_log_writes)                                                                          |
+| index_page_splits                        |        725862 |        6.380 | counter        | Number of index page splits                                                                                       |
+| index_page_merge_attempts                |       6318656 |       55.537 | counter        | Number of index page merge attempts                                                                               |
+| index_page_merge_successful              |        600659 |        5.279 | counter        | Number of successful index page merges                                                                            |
+| index_page_reorg_attempts                |        324359 |        2.851 | counter        | Number of index page reorganization attempts                                                                      |
+| index_page_reorg_successful              |        324359 |        2.851 | counter        | Number of successful index page reorganizations                                                                   |
+| index_page_discards                      |           850 |        0.007 | counter        | Number of index pages discarded                                                                                   |
+| adaptive_hash_searches                   |     996683138 |     3884.841 | status_counter | Number of successful searches using Adaptive Hash Index                                                           |
+| adaptive_hash_pages_added                |       6787699 |       59.660 | counter        | Number of index pages on which the Adaptive Hash Index is built                                                   |
+| adaptive_hash_pages_removed              |       6165530 |       54.192 | counter        | Number of index pages whose corresponding Adaptive Hash Index entries were removed                                |
+| adaptive_hash_rows_added                 |     971809814 |     8541.656 | counter        | Number of Adaptive Hash Index rows added                                                                          |
+| adaptive_hash_rows_removed               |     450086501 |     3956.005 | counter        | Number of Adaptive Hash Index rows removed                                                                        |
+| adaptive_hash_rows_deleted_no_hash_entry |            59 |        0.001 | counter        | Number of rows deleted that did not have corresponding Adaptive Hash Index entries                                |
+| file_num_open_files                      |             4 |         NULL | value          | Number of files currently open (innodb_num_open_files)                                                            |
+| ibuf_merges_insert                       |     281620042 |     1097.690 | status_counter | Number of inserted records merged by change buffering                                                             |
+| ibuf_merges_delete_mark                  |      21569667 |       84.074 | status_counter | Number of deleted records merged by change buffering                                                              |
+| ibuf_merges_delete                       |       3332320 |       12.989 | status_counter | Number of purge records merged by change buffering                                                                |
+| ibuf_merges                              |      13938295 |       54.328 | status_counter | Number of change buffer merges                                                                                    |
+| ibuf_size                                |         17478 |        0.068 | status_counter | Change buffer size in pages                                                                                       |
+| innodb_master_thread_sleeps              |         82021 |        0.721 | counter        | Number of times (seconds) master thread sleeps                                                                    |
+| innodb_activity_count                    |     167679087 |      653.574 | status_counter | Current server activity count                                                                                     |
+| innodb_master_active_loops               |         82021 |        0.721 | counter        | Number of times master thread performs its tasks when server is active                                            |
+| innodb_background_drop_table_usec        |         58451 |        0.514 | counter        | Time (in microseconds) spent to process drop table list                                                           |
+| innodb_ibuf_merge_usec                   |    2815277852 |    24744.692 | counter        | Time (in microseconds) spent to process change buffer merge                                                       |
+| innodb_log_flush_usec                    |    2843869697 |    24995.998 | counter        | Time (in microseconds) spent to flush log records                                                                 |
+| innodb_dict_lru_usec                     |   25556359671 |   224625.875 | counter        | Time (in microseconds) spent to process DICT LRU list                                                             |
+| innodb_checkpoint_usec                   |     417383675 |     3668.565 | counter        | Time (in microseconds) spent by master thread to do checkpoint                                                    |
+| innodb_dblwr_writes                      |       1991948 |        7.764 | status_counter | Number of doublewrite operations that have been performed (innodb_dblwr_writes)                                   |
+| innodb_dblwr_pages_written               |      88472873 |      344.847 | status_counter | Number of pages that have been written for doublewrite operations (innodb_dblwr_pages_written)                    |
+| innodb_page_size                         |         16384 |         NULL | value          | InnoDB page size in bytes (innodb_page_size)                                                                      |
+| innodb_rwlock_s_spin_waits               |      48060144 |      187.327 | status_counter | Number of rwlock spin waits due to shared latch request                                                           |
+| innodb_rwlock_x_spin_waits               |       5197488 |       20.259 | status_counter | Number of rwlock spin waits due to exclusive latch request                                                        |
+| innodb_rwlock_s_spin_rounds              |    1476389094 |     5754.624 | status_counter | Number of rwlock spin loop rounds due to shared latch request                                                     |
+| innodb_rwlock_x_spin_rounds              |     434074879 |     1691.924 | status_counter | Number of rwlock spin loop rounds due to exclusive latch request                                                  |
+| innodb_rwlock_s_os_waits                 |      42616148 |      166.108 | status_counter | Number of OS waits due to shared latch request                                                                    |
+| innodb_rwlock_x_os_waits                 |      11139632 |       43.420 | status_counter | Number of OS waits due to exclusive latch request                                                                 |
+| dml_reads                                |    5382057652 |    20978.019 | status_counter | Number of rows read                                                                                               |
+| dml_inserts                              |    1012583832 |     3946.818 | status_counter | Number of rows inserted                                                                                           |
+| dml_deletes                              |      12583838 |       49.049 | status_counter | Number of rows deleted                                                                                            |
+| dml_updates                              |      25177697 |       98.137 | status_counter | Number of rows updated                                                                                            |
++------------------------------------------+---------------+--------------+----------------+-------------------------------------------------------------------------------------------------------------------+
+133 rows in set (0.00 sec)
+
+To learn more about the INNODB_METRICS table check out the MySQL Manual as well as a Getting Started blog post by Oracle.
+PREVIOUS POST
+NEXT POST
+
+Filed Under: Benchmarks, InnoDB, MySQL Tagged With: InnoDB, INNODB_METRICS, MySQL Performance, Peter Zaitsev, Primary
+About Peter Zaitsev
+
+Peter managed the High Performance Group within MySQL until 2006, when he founded Percona. Peter has a Master's Degree in Computer Science and is an expert in database kernels, computer hardware, and application scaling.
+The Percona Performance Blog
+Where we discuss MySQL and related technologies including OpenStack, NoSQL, and InnoDB.
+NOW TRENDING
+Announcement Bugs Community GitHub InnoDB MyISAM MySQL MySQL 5.6 Optimizer Percona Percona Server Percona Toolkit Percona XtraDB Cluster Peter Zaitsev Primary Production Replication Secondary Tips XtraDB
+Percona Webinars
+
+    July 02, 2015 - Practical MySQL Performance Optimization
+    July 15, 2015 - Creating a Best-in-Class Backup and Recovery System for Your MySQL Environment
+    July 22, 2015 - Advanced Query Tuning in MySQL 5.6 and 5.7
+    July 29, 2015 - Introduction to MySQL SYS Schema
+    August 05, 2015 - Security: More than Just Your Database!
+
+All Webinars »
+
+Percona MySQL eBooks
+
+    MySQL Performance Tuning, Volume 1
+    MySQL Backups Volume 1
+    MySQL High Availability
+    OpenStack Trove (Volume 1)
+    MySQL Security
+
+All eBooks »
+
+
+Sign-up for Percona Newsletters
+Register Now
+SERVICES
+
+    Percona Care
+    Support
+    Managed Services
+    Consulting
+
+SOFTWARE
+
+    Percona Server
+    Percona XtraDB Cluster
+    Percona XtraBackup
+    Percona Toolkit
+    Documentation
+
+RESOURCES
+
+    Webinars
+    MySQL Configuration Wizard
+    Technical Presentations
+    Videos
+    eBooks
+
+COMMUNITY
+
+    Forums
+    Performance Blog
+    Google Groups
+    Launchpad
+
+CONFERENCES
+
+    Percona Live Europe Amsterdam 2015
+    Percona Live Silicon Valley 2015
+    Other MySQL Events
+
+ABOUT
+
+    Mission
+    Team
+    Careers
+    Contact
+
+EMERGENCY?
+Get 24/7 Live Help Now!
+Sales North America
+(888) 316-9775 or (208) 473-2904
+Sales Europe
++44-208-133-0309 (UK)
+0-800-051-8984 (UK)
+0-800-181-0665 (GER)
+MySQL and InnoDB are trademarks of Oracle Corp. Proudly running Percona Server. Copyright © 2006-2015 Percona LLC
+Copyright, Trademark, and Privacy Policy
+
+
+在源码目录下执行
+$ctags –R *
+set tags=/home/zhouyl/linux-3.4.7/tags;"后面的路径是使用ctags -R 后生成的tags文件所在目录，如果需要配置多个tags，只需如下再添加即可
+
+	• Cscope
+
+find . -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.ic" -o -name "*.hpp" -o -name "*.cxx" -o -name "*.hxx" > cscope.files
+
+cscope -bq -i cscope.files
+ctags -R
+
+在源代码目录下打开vim。要使用cscope查找就必须加载cscope.out文件.在vim命令行下执行：
+:cs add cscope.out
+在vim命令行下执行： 
+:cs help
+
+
+
+180.76.151.121
+
+
+您的云服务器BCC已创建成功。用户名：root，密码：6b5iVDiMp2zg，公网IP:180.76.155.218【百度】
+
+mdadm --create --verbose /dev/md0 --level=0 --trunk=128 --raid-devices=3 /dev/sd[bcd]1 
+
+gcc-c++  cmake  ncurses-devel
+
+
+ ./mdadm -A /dev/md0 /dev/sd[b-h
+
+ ./mdadm -Av --uuid=0cabc5e5:842d4baa:e3f6261b:a17a477a /dev/md0 /dev/sd*
+
+ mdadm -Av --uuid=784011ad:35e0c2ba:14f9cf4f:059dba95 /dev/md0 /dev/vdd1 /dev/vde1
+
+mdadm: looking for devices for /dev/md0
+mdadm: /dev/vdd1 is busy - skipping
+mdadm: /dev/vde1 is busy - skipping
+
+
+caption always "%{.bW}%-w%{.rW}%n %t%{-}%+w %=%H %Y/%m/%d "
+
+
+180.76.151.121
+
+
+fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randwrite -ioengine=libaio -bs=64k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest
+
+
+- 加统计信息，测试flush—list/flush_lru效果
+- 避免single flush
+- fysnc超时机制，避免100% IO hang死
+
+
+  
+  
+  mdadm: /dev/vdd1 is busy - skipping
+  
+  
+  [root@jianying-vm-2 dev]# mdadm --stop /dev/md127
+mdadm: stopped /dev/md127
+[root@jianying-vm-2 dev]# mdadm -Av --uuid=784011ad:35e0c2ba:14f9cf4f:059dba95 /dev/md0 /dev/vdd1 /dev/vde1
+mdadm: looking for devices for /dev/md0
+mdadm: /dev/vdd1 is identified as a member of /dev/md0, slot 0.
+mdadm: /dev/vde1 is identified as a member of /dev/md0, slot 1.
+mdadm: added /dev/vde1 to /dev/md0 as 1
+mdadm: added /dev/vdd1 to /dev/md0 as 0
+mdadm: /dev/md0 has been started with 2 drives.
+
+mount: you must specify the filesystem type
+
+
+
+fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=64k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest
+
+
+

@@ -1,0 +1,4 @@
+2121463 trx_purge_rseg_get_next_history_log() id is:85, page_no:258, space:0,last_page_no:2545,last_offset:458,last_trx_no is:48454854,
+2121464 2015-12-01 18:41:16 1752 [Note] Forcefully disconnecting 0 remaining clients
+2121465 2015-12-01 18:41:16 1752 [Note] Binlog end
+

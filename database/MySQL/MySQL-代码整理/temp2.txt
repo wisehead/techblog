@@ -1,0 +1,1039 @@
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=64k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest
+mytest: (g=0): rw=randread, bs=64K-64K/64K-64K/64K-64K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=64K-64K/64K-64K/64K-64K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [403.2MB/0KB/0KB /s] [6451/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=16528: Wed Jul  1 11:03:59 2015
+  read : io=24148MB, bw=412114KB/s, iops=6439, runt= 60002msec
+    clat (usec): min=290, max=45472, avg=1551.21, stdev=273.35
+     lat (usec): min=290, max=45472, avg=1551.34, stdev=273.35
+    clat percentiles (usec):
+     |  1.00th=[ 1064],  5.00th=[ 1256], 10.00th=[ 1272], 20.00th=[ 1368],
+     | 30.00th=[ 1480], 40.00th=[ 1544], 50.00th=[ 1576], 60.00th=[ 1592],
+     | 70.00th=[ 1624], 80.00th=[ 1688], 90.00th=[ 1768], 95.00th=[ 1864],
+     | 99.00th=[ 2040], 99.50th=[ 2128], 99.90th=[ 2640], 99.95th=[ 3024],
+     | 99.99th=[ 3600]
+    bw (KB  /s): min=37888, max=48798, per=10.01%, avg=41248.08, stdev=441.24
+    lat (usec) : 500=0.04%, 750=0.05%, 1000=0.46%
+    lat (msec) : 2=98.07%, 4=1.38%, 10=0.01%, 20=0.01%, 50=0.01%
+  cpu          : usr=0.17%, sys=1.14%, ctx=386379, majf=0, minf=169
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=386370/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=24148MB, aggrb=412114KB/s, minb=412114KB/s, maxb=412114KB/s, mint=60002msec, maxt=60002msec
+
+Disk stats (read/write):
+  sdf: ios=427160/0, merge=187088/0, ticks=647666/0, in_queue=647401, util=99.76%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=32k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest   
+mytest: (g=0): rw=randread, bs=32K-32K/32K-32K/32K-32K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=32K-32K/32K-32K/32K-32K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [385.7MB/0KB/0KB /s] [12.4K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=20035: Wed Jul  1 11:05:10 2015
+  read : io=23151MB, bw=395112KB/s, iops=12347, runt= 60001msec
+    clat (usec): min=192, max=39491, avg=808.22, stdev=163.23
+     lat (usec): min=193, max=39491, avg=808.34, stdev=163.23
+    clat percentiles (usec):
+     |  1.00th=[  572],  5.00th=[  636], 10.00th=[  636], 20.00th=[  724],
+     | 30.00th=[  780], 40.00th=[  812], 50.00th=[  820], 60.00th=[  836],
+     | 70.00th=[  844], 80.00th=[  884], 90.00th=[  916], 95.00th=[  964],
+     | 99.00th=[ 1048], 99.50th=[ 1080], 99.90th=[ 1272], 99.95th=[ 1848],
+     | 99.99th=[ 2800]
+    bw (KB  /s): min=36480, max=44480, per=10.01%, avg=39544.87, stdev=352.91
+    lat (usec) : 250=0.02%, 500=0.26%, 750=22.29%, 1000=74.86%
+    lat (msec) : 2=2.53%, 4=0.04%, 10=0.01%, 20=0.01%, 50=0.01%
+  cpu          : usr=0.33%, sys=1.75%, ctx=740879, majf=0, minf=89
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=740847/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=23151MB, aggrb=395111KB/s, minb=395111KB/s, maxb=395111KB/s, mint=60001msec, maxt=60001msec
+
+Disk stats (read/write):
+  sdf: ios=758655/0, merge=9764/0, ticks=604212/0, in_queue=603768, util=99.75%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=16k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest  
+mytest: (g=0): rw=randread, bs=16K-16K/16K-16K/16K-16K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=16K-16K/16K-16K/16K-16K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [338.8MB/0KB/0KB /s] [21.7K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=30600: Wed Jul  1 11:08:26 2015
+  read : io=20299MB, bw=346438KB/s, iops=21652, runt= 60001msec
+    clat (usec): min=151, max=36937, avg=460.20, stdev=116.58
+     lat (usec): min=151, max=36937, avg=460.32, stdev=116.58
+    clat percentiles (usec):
+     |  1.00th=[  286],  5.00th=[  338], 10.00th=[  370], 20.00th=[  410],
+     | 30.00th=[  434], 40.00th=[  446], 50.00th=[  458], 60.00th=[  474],
+     | 70.00th=[  490], 80.00th=[  510], 90.00th=[  548], 95.00th=[  572],
+     | 99.00th=[  636], 99.50th=[  660], 99.90th=[  732], 99.95th=[  972],
+     | 99.99th=[ 2416]
+    bw (KB  /s): min=31968, max=37568, per=10.00%, avg=34660.41, stdev=287.20
+    lat (usec) : 250=0.25%, 500=74.94%, 750=24.72%, 1000=0.04%
+    lat (msec) : 2=0.03%, 4=0.01%, 10=0.01%, 50=0.01%
+  cpu          : usr=0.57%, sys=2.74%, ctx=1299229, majf=0, minf=49
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1299166/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=20299MB, aggrb=346438KB/s, minb=346438KB/s, maxb=346438KB/s, mint=60001msec, maxt=60001msec
+
+Disk stats (read/write):
+  sdf: ios=1301516/0, merge=5550/0, ticks=588420/0, in_queue=587706, util=99.75%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=8k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest  
+mytest: (g=0): rw=randread, bs=8K-8K/8K-8K/8K-8K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=8K-8K/8K-8K/8K-8K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [276.8MB/0KB/0KB /s] [35.5K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=2788: Wed Jul  1 11:09:50 2015
+  read : io=16609MB, bw=283460KB/s, iops=35432, runt= 60001msec
+    clat (usec): min=127, max=35326, avg=280.56, stdev=84.96
+     lat (usec): min=128, max=35326, avg=280.68, stdev=84.96
+    clat percentiles (usec):
+     |  1.00th=[  177],  5.00th=[  201], 10.00th=[  219], 20.00th=[  241],
+     | 30.00th=[  258], 40.00th=[  266], 50.00th=[  278], 60.00th=[  290],
+     | 70.00th=[  302], 80.00th=[  318], 90.00th=[  342], 95.00th=[  366],
+     | 99.00th=[  402], 99.50th=[  418], 99.90th=[  466], 99.95th=[  580],
+     | 99.99th=[ 1384]
+    bw (KB  /s): min=26352, max=29360, per=10.00%, avg=28355.54, stdev=204.59
+    lat (usec) : 250=25.68%, 500=74.25%, 750=0.04%, 1000=0.01%
+    lat (msec) : 2=0.01%, 4=0.01%, 10=0.01%, 50=0.01%
+  cpu          : usr=0.94%, sys=5.40%, ctx=2126182, majf=0, minf=29
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=2125989/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=16609MB, aggrb=283460KB/s, minb=283460KB/s, maxb=283460KB/s, mint=60001msec, maxt=60001msec
+
+Disk stats (read/write):
+  sdf: ios=2120672/0, merge=0/0, ticks=577908/0, in_queue=576303, util=99.76%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=4k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest 
+mytest: (g=0): rw=randread, bs=4K-4K/4K-4K/4K-4K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=4K-4K/4K-4K/4K-4K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [200.5MB/0KB/0KB /s] [51.4K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=7369: Wed Jul  1 11:11:21 2015
+  read : io=11997MB, bw=204747KB/s, iops=51186, runt= 60001msec
+    clat (usec): min=117, max=34957, avg=193.35, stdev=70.87
+     lat (usec): min=117, max=34957, avg=193.49, stdev=70.87
+    clat percentiles (usec):
+     |  1.00th=[  137],  5.00th=[  149], 10.00th=[  157], 20.00th=[  167],
+     | 30.00th=[  175], 40.00th=[  181], 50.00th=[  189], 60.00th=[  197],
+     | 70.00th=[  205], 80.00th=[  217], 90.00th=[  235], 95.00th=[  253],
+     | 99.00th=[  286], 99.50th=[  298], 99.90th=[  446], 99.95th=[  756],
+     | 99.99th=[ 1944]
+    bw (KB  /s): min=18504, max=20760, per=10.00%, avg=20478.71, stdev=217.99
+    lat (usec) : 250=94.50%, 500=5.41%, 750=0.04%, 1000=0.02%
+    lat (msec) : 2=0.02%, 4=0.01%, 10=0.01%, 50=0.01%
+  cpu          : usr=1.33%, sys=11.05%, ctx=3285283, majf=0, minf=21
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=3071261/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=11997MB, aggrb=204747KB/s, minb=204747KB/s, maxb=204747KB/s, mint=60001msec, maxt=60001msec
+
+Disk stats (read/write):
+  sdf: ios=3063461/0, merge=0/0, ticks=546911/0, in_queue=544211, util=99.76%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=2k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest 
+mytest: (g=0): rw=randread, bs=2K-2K/2K-2K/2K-2K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=2K-2K/2K-2K/2K-2K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [123.1MB/0KB/0KB /s] [63.5K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=12151: Wed Jul  1 11:12:53 2015
+  read : io=7419.2MB, bw=126618KB/s, iops=63309, runt= 60001msec
+    clat (usec): min=102, max=39708, avg=156.03, stdev=58.59
+     lat (usec): min=102, max=39709, avg=156.16, stdev=58.59
+    clat percentiles (usec):
+     |  1.00th=[  119],  5.00th=[  127], 10.00th=[  133], 20.00th=[  139],
+     | 30.00th=[  143], 40.00th=[  149], 50.00th=[  153], 60.00th=[  157],
+     | 70.00th=[  163], 80.00th=[  171], 90.00th=[  185], 95.00th=[  199],
+     | 99.00th=[  231], 99.50th=[  245], 99.90th=[  278], 99.95th=[  306],
+     | 99.99th=[  708]
+    bw (KB  /s): min=11824, max=13016, per=10.00%, avg=12663.81, stdev=82.14
+    lat (usec) : 250=99.62%, 500=0.35%, 750=0.02%, 1000=0.01%
+    lat (msec) : 2=0.01%, 4=0.01%, 50=0.01%
+  cpu          : usr=1.70%, sys=14.48%, ctx=4062274, majf=0, minf=20
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=3798618/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=7419.2MB, aggrb=126618KB/s, minb=126618KB/s, maxb=126618KB/s, mint=60001msec, maxt=60001msec
+
+Disk stats (read/write):
+  sdf: ios=3788656/0, merge=0/0, ticks=528546/0, in_queue=525126, util=99.75%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=1k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest 
+mytest: (g=0): rw=randread, bs=1K-1K/1K-1K/1K-1K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=1K-1K/1K-1K/1K-1K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [64786KB/0KB/0KB /s] [64.8K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=16899: Wed Jul  1 11:14:21 2015
+  read : io=3796.7MB, bw=64784KB/s, iops=64784, runt= 60001msec
+    clat (usec): min=98, max=44585, avg=152.45, stdev=61.08
+     lat (usec): min=98, max=44585, avg=152.58, stdev=61.09
+    clat percentiles (usec):
+     |  1.00th=[  117],  5.00th=[  124], 10.00th=[  129], 20.00th=[  135],
+     | 30.00th=[  141], 40.00th=[  145], 50.00th=[  149], 60.00th=[  153],
+     | 70.00th=[  159], 80.00th=[  167], 90.00th=[  179], 95.00th=[  193],
+     | 99.00th=[  227], 99.50th=[  241], 99.90th=[  274], 99.95th=[  298],
+     | 99.99th=[  676]
+    bw (KB  /s): min= 5920, max= 6602, per=10.00%, avg=6479.49, stdev=44.72
+    lat (usec) : 100=0.01%, 250=99.68%, 500=0.29%, 750=0.02%, 1000=0.01%
+    lat (msec) : 2=0.01%, 4=0.01%, 50=0.01%
+  cpu          : usr=1.71%, sys=14.82%, ctx=4120291, majf=0, minf=19
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=3887111/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=3796.7MB, aggrb=64784KB/s, minb=64784KB/s, maxb=64784KB/s, mint=60001msec, maxt=60001msec
+
+Disk stats (read/write):
+  sdf: ios=3876315/0, merge=0/0, ticks=527567/0, in_queue=524132, util=99.74%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=512 -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest  
+mytest: (g=0): rw=randread, bs=512-512/512-512/512-512, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=512-512/512-512/512-512, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [32881KB/0KB/0KB /s] [65.8K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=8943: Wed Jul  1 11:21:29 2015
+  read : io=1923.4MB, bw=32825KB/s, iops=65649, runt= 60001msec
+    clat (usec): min=97, max=67174, avg=150.42, stdev=72.46
+     lat (usec): min=97, max=67174, avg=150.55, stdev=72.46
+    clat percentiles (usec):
+     |  1.00th=[  115],  5.00th=[  122], 10.00th=[  127], 20.00th=[  133],
+     | 30.00th=[  139], 40.00th=[  143], 50.00th=[  147], 60.00th=[  151],
+     | 70.00th=[  157], 80.00th=[  165], 90.00th=[  177], 95.00th=[  191],
+     | 99.00th=[  225], 99.50th=[  239], 99.90th=[  274], 99.95th=[  298],
+     | 99.99th=[  724]
+    bw (KB  /s): min= 2895, max= 3362, per=10.00%, avg=3282.90, stdev=26.68
+    lat (usec) : 100=0.01%, 250=99.70%, 500=0.27%, 750=0.02%, 1000=0.01%
+    lat (msec) : 2=0.01%, 4=0.01%, 10=0.01%, 50=0.01%, 100=0.01%
+  cpu          : usr=1.73%, sys=14.94%, ctx=4170111, majf=0, minf=19
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=3939006/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=1923.4MB, aggrb=32824KB/s, minb=32824KB/s, maxb=32824KB/s, mint=60001msec, maxt=60001msec
+
+Disk stats (read/write):
+  sdf: ios=3925941/0, merge=0/0, ticks=527372/0, in_queue=523822, util=99.73%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=2k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=128k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest  
+mytest: (g=0): rw=randread, bs=128K-128K/128K-128K/128K-128K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=128K-128K/128K-128K/128K-128K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [434.7MB/0KB/0KB /s] [3477/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=16018: Wed Jul  1 11:23:48 2015
+  read : io=26109MB, bw=445576KB/s, iops=3481, runt= 60003msec
+    clat (usec): min=453, max=53358, avg=2870.84, stdev=397.47
+     lat (usec): min=453, max=53358, avg=2870.97, stdev=397.47
+    clat percentiles (usec):
+     |  1.00th=[ 2320],  5.00th=[ 2512], 10.00th=[ 2544], 20.00th=[ 2608],
+     | 30.00th=[ 2704], 40.00th=[ 2864], 50.00th=[ 2896], 60.00th=[ 2928],
+     | 70.00th=[ 2960], 80.00th=[ 3024], 90.00th=[ 3184], 95.00th=[ 3344],
+     | 99.00th=[ 3664], 99.50th=[ 3792], 99.90th=[ 4320], 99.95th=[ 4576],
+     | 99.99th=[ 5472]
+    bw (KB  /s): min=41051, max=55075, per=10.01%, avg=44599.22, stdev=522.46
+    lat (usec) : 500=0.03%, 750=0.02%
+    lat (msec) : 2=0.02%, 4=99.67%, 10=0.25%, 20=0.01%, 50=0.01%
+    lat (msec) : 100=0.01%
+  cpu          : usr=0.09%, sys=0.80%, ctx=208886, majf=0, minf=331
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=208874/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=26109MB, aggrb=445575KB/s, minb=445575KB/s, maxb=445575KB/s, mint=60003msec, maxt=60003msec
+
+Disk stats (read/write):
+  sdf: ios=237533/0, merge=130533/0, ticks=669034/0, in_queue=668843, util=99.75%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=256k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest   
+mytest: (g=0): rw=randread, bs=256K-256K/256K-256K/256K-256K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=256K-256K/256K-256K/256K-256K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [462.8MB/0KB/0KB /s] [1851/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=21411: Wed Jul  1 11:25:30 2015
+  read : io=27772MB, bw=473927KB/s, iops=1851, runt= 60005msec
+    clat (usec): min=719, max=68509, avg=5399.52, stdev=532.21
+     lat (usec): min=719, max=68509, avg=5399.65, stdev=532.21
+    clat percentiles (usec):
+     |  1.00th=[ 4960],  5.00th=[ 5088], 10.00th=[ 5088], 20.00th=[ 5344],
+     | 30.00th=[ 5408], 40.00th=[ 5408], 50.00th=[ 5408], 60.00th=[ 5408],
+     | 70.00th=[ 5472], 80.00th=[ 5472], 90.00th=[ 5472], 95.00th=[ 5536],
+     | 99.00th=[ 6176], 99.50th=[ 6560], 99.90th=[ 7136], 99.95th=[ 7584],
+     | 99.99th=[33024]
+    bw (KB  /s): min=43260, max=60564, per=10.01%, avg=47440.85, stdev=545.18
+    lat (usec) : 750=0.01%, 1000=0.06%
+    lat (msec) : 2=0.01%, 4=0.01%, 10=99.90%, 20=0.01%, 50=0.01%
+    lat (msec) : 100=0.01%
+  cpu          : usr=0.05%, sys=0.58%, ctx=111092, majf=0, minf=652
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=111086/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=27772MB, aggrb=473927KB/s, minb=473927KB/s, maxb=473927KB/s, mint=60005msec, maxt=60005msec
+
+Disk stats (read/write):
+  sdf: ios=133055/0, merge=99263/0, ticks=704917/0, in_queue=704818, util=99.75%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=512k -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest   
+mytest: (g=0): rw=randread, bs=512K-512K/512K-512K/512K-512K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=512K-512K/512K-512K/512K-512K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [344.0MB/0KB/0KB /s] [688/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=24920: Wed Jul  1 11:26:45 2015
+  read : io=24664MB, bw=420833KB/s, iops=821, runt= 60013msec
+    clat (msec): min=1, max=1574, avg=12.16, stdev=73.77
+     lat (msec): min=1, max=1574, avg=12.16, stdev=73.77
+    clat percentiles (usec):
+     |  1.00th=[ 1336],  5.00th=[ 1352], 10.00th=[ 1384], 20.00th=[ 1512],
+     | 30.00th=[ 2352], 40.00th=[ 2960], 50.00th=[ 3408], 60.00th=[ 4448],
+     | 70.00th=[ 7456], 80.00th=[ 8512], 90.00th=[ 9280], 95.00th=[10560],
+     | 99.00th=[276480], 99.50th=[342016], 99.90th=[1122304], 99.95th=[1204224],
+     | 99.99th=[1515520]
+    bw (KB  /s): min= 5520, max=206435, per=11.97%, avg=50394.37, stdev=38303.80
+    lat (msec) : 2=28.59%, 4=27.88%, 10=35.33%, 20=6.38%, 50=0.06%
+    lat (msec) : 100=0.17%, 250=0.55%, 500=0.61%, 750=0.05%, 1000=0.06%
+    lat (msec) : 2000=0.31%
+  cpu          : usr=0.02%, sys=0.39%, ctx=49342, majf=0, minf=1299
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=49327/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=24664MB, aggrb=420832KB/s, minb=420832KB/s, maxb=420832KB/s, mint=60013msec, maxt=60013msec
+
+Disk stats (read/write):
+  sdf: ios=113642/0, merge=68375/0, ticks=1112005/0, in_queue=1113703, util=99.75%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=1m -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest    
+mytest: (g=0): rw=randread, bs=1M-1M/1M-1M/1M-1M, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=1M-1M/1M-1M/1M-1M, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [390.0MB/0KB/0KB /s] [390/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=29870: Wed Jul  1 11:28:15 2015
+  read : io=23634MB, bw=403192KB/s, iops=393, runt= 60024msec
+    clat (msec): min=2, max=360, avg=25.39, stdev=77.45
+     lat (msec): min=2, max=360, avg=25.39, stdev=77.45
+    clat percentiles (msec):
+     |  1.00th=[    3],  5.00th=[    3], 10.00th=[    3], 20.00th=[    3],
+     | 30.00th=[    3], 40.00th=[    3], 50.00th=[    3], 60.00th=[    3],
+     | 70.00th=[    3], 80.00th=[    3], 90.00th=[    3], 95.00th=[  285],
+     | 99.00th=[  343], 99.50th=[  347], 99.90th=[  351], 99.95th=[  355],
+     | 99.99th=[  355]
+    bw (KB  /s): min=19110, max=73451, per=10.04%, avg=40483.73, stdev=3852.34
+    lat (msec) : 4=91.85%, 10=0.04%, 50=0.01%, 100=0.01%, 250=0.45%
+    lat (msec) : 500=7.65%
+  cpu          : usr=0.01%, sys=0.30%, ctx=23641, majf=0, minf=2573
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=23634/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=23634MB, aggrb=403192KB/s, minb=403192KB/s, maxb=403192KB/s, mint=60024msec, maxt=60024msec
+
+Disk stats (read/write):
+  sdf: ios=107025/0, merge=59292/0, ticks=2286518/0, in_queue=2291601, util=99.75%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=4m -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest 
+mytest: (g=0): rw=randread, bs=4M-4M/4M-4M/4M-4M, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=4M-4M/4M-4M/4M-4M, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 10 threads
+Jobs: 10 (f=10): [rrrrrrrrrr] [100.0% done] [428.0MB/0KB/0KB /s] [107/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=10): err= 0: pid=2004: Wed Jul  1 11:29:36 2015
+  read : io=25912MB, bw=441576KB/s, iops=107, runt= 60089msec
+    clat (msec): min=9, max=326, avg=92.69, stdev=34.45
+     lat (msec): min=9, max=326, avg=92.69, stdev=34.45
+    clat percentiles (msec):
+     |  1.00th=[   37],  5.00th=[   37], 10.00th=[   37], 20.00th=[   65],
+     | 30.00th=[   65], 40.00th=[   93], 50.00th=[  101], 60.00th=[  110],
+     | 70.00th=[  111], 80.00th=[  112], 90.00th=[  128], 95.00th=[  147],
+     | 99.00th=[  157], 99.50th=[  210], 99.90th=[  297], 99.95th=[  326],
+     | 99.99th=[  326]
+    bw (KB  /s): min=21864, max=112881, per=10.12%, avg=44680.84, stdev=18828.69
+    lat (msec) : 10=0.02%, 20=0.02%, 50=15.45%, 100=29.95%, 250=54.31%
+    lat (msec) : 500=0.26%
+  cpu          : usr=0.01%, sys=0.40%, ctx=16700, majf=0, minf=10254
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=6478/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=25912MB, aggrb=441576KB/s, minb=441576KB/s, maxb=441576KB/s, mint=60089msec, maxt=60089msec
+
+Disk stats (read/write):
+  sdf: ios=103315/0, merge=64599/0, ticks=8115848/0, in_queue=8122191, util=99.76%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=4m -size=20G -numjobs=10 -runtime=60 -group_reporting -name=mytest
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ 
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 1 -thread -rw=randread -ioengine=psync -bs=16k -size=20G -numjobs=20 -runtime=60 -group_reporting -name=mytest   
+mytest: (g=0): rw=randread, bs=16K-16K/16K-16K/16K-16K, ioengine=psync, iodepth=1
+...
+mytest: (g=0): rw=randread, bs=16K-16K/16K-16K/16K-16K, ioengine=psync, iodepth=1
+fio-2.1.4
+Starting 20 threads
+Jobs: 20 (f=20): [rrrrrrrrrrrrrrrrrrrr] [100.0% done] [359.8MB/0KB/0KB /s] [23.3K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=20): err= 0: pid=8614: Wed Jul  1 11:31:23 2015
+  read : io=21554MB, bw=367847KB/s, iops=22990, runt= 60001msec
+    clat (usec): min=151, max=32486, avg=868.25, stdev=155.84
+     lat (usec): min=151, max=32487, avg=868.36, stdev=155.84
+    clat percentiles (usec):
+     |  1.00th=[  556],  5.00th=[  652], 10.00th=[  708], 20.00th=[  780],
+     | 30.00th=[  820], 40.00th=[  852], 50.00th=[  876], 60.00th=[  900],
+     | 70.00th=[  916], 80.00th=[  956], 90.00th=[ 1012], 95.00th=[ 1064],
+     | 99.00th=[ 1144], 99.50th=[ 1176], 99.90th=[ 1272], 99.95th=[ 1400],
+     | 99.99th=[ 2576]
+    bw (KB  /s): min=17344, max=20448, per=5.00%, avg=18408.08, stdev=142.12
+    lat (usec) : 250=0.01%, 500=0.25%, 750=15.27%, 1000=71.98%
+    lat (msec) : 2=12.46%, 4=0.02%, 10=0.01%, 20=0.01%, 50=0.01%
+  cpu          : usr=0.32%, sys=1.47%, ctx=1379932, majf=0, minf=89
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1379450/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=21554MB, aggrb=367847KB/s, minb=367847KB/s, maxb=367847KB/s, mint=60001msec, maxt=60001msec
+
+Disk stats (read/write):
+  sdf: ios=1380906/0, merge=5416/0, ticks=1187825/0, in_queue=1186975, util=100.00%
+[chenhui@sh01-mco-ssdwise259.sh01.baidu.com ssd4]$ fio -filename=./fiofile -direct=1 -iodepth 16 -thread -rw=randread -ioengine=psync -bs=16k -size=20G -numjobs=200 -runtime=60 -group_reporting -name=mytest
+mytest: (g=0): rw=randread, bs=16K-16K/16K-16K/16K-16K, ioengine=psync, iodepth=16
+...
+mytest: (g=0): rw=randread, bs=16K-16K/16K-16K/16K-16K, ioengine=psync, iodepth=16
+fio-2.1.4
+Starting 200 threads
+Jobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrJobs: 200 (f=200): [rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr] [100.0% done] [366.2MB/0KB/0KB /s] [23.5K/0/0 iops] [eta 00m:00s]
+mytest: (groupid=0, jobs=200): err= 0: pid=13433: Wed Jul  1 11:32:58 2015
+  read : io=20817MB, bw=355216KB/s, iops=22200, runt= 60011msec
+    clat (usec): min=154, max=1734.1K, avg=9005.03, stdev=22887.30
+     lat (usec): min=154, max=1734.1K, avg=9005.14, stdev=22887.30
+    clat percentiles (msec):
+     |  1.00th=[    5],  5.00th=[    6], 10.00th=[    6], 20.00th=[    6],
+     | 30.00th=[    6], 40.00th=[   10], 50.00th=[   11], 60.00th=[   11],
+     | 70.00th=[   11], 80.00th=[   11], 90.00th=[   11], 95.00th=[   11],
+     | 99.00th=[   12], 99.50th=[   12], 99.90th=[   44], 99.95th=[  155],
+     | 99.99th=[ 1418]
+    bw (KB  /s): min=    9, max= 2645, per=0.51%, avg=1827.20, stdev=294.32
+    lat (usec) : 250=0.02%, 500=0.01%, 750=0.01%, 1000=0.01%
+    lat (msec) : 2=0.01%, 4=0.49%, 10=45.32%, 20=54.01%, 50=0.06%
+    lat (msec) : 100=0.03%, 250=0.01%, 500=0.01%, 750=0.01%, 1000=0.01%
+    lat (msec) : 2000=0.02%
+  cpu          : usr=0.04%, sys=0.23%, ctx=3139521, majf=0, minf=811
+  IO depths    : 1=100.0%, 2=0.0%, 4=0.0%, 8=0.0%, 16=0.0%, 32=0.0%, >=64=0.0%
+     submit    : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     complete  : 0=0.0%, 4=100.0%, 8=0.0%, 16=0.0%, 32=0.0%, 64=0.0%, >=64=0.0%
+     issued    : total=r=1332304/w=0/d=0, short=r=0/w=0/d=0
+
+Run status group 0 (all jobs):
+   READ: io=20817MB, aggrb=355215KB/s, minb=355215KB/s, maxb=355215KB/s, mint=60011msec, maxt=60011msec
+
+Disk stats (read/write):
+  sdf: ios=1335176/0, merge=6791/0, ticks=7738159/0, in_queue=7737498, util=99.59%
+  
+---------------------------
+chunk size = 128k
+
+fio -filename=./fiofile -direct=1 -iodepth 20 -thread -rw=randwrite -ioengine=libaio -bs=16k -size=20G -numjobs=200 -runtime=60 -group_reporting -name=mytes
+bw=171736KB/s, iops=10733
+
+ fio -filename=./fiofile -direct=1 -iodepth 12 -thread -rw=randwrite -ioengine=libaio -bs=16k -size=20G -numjobs=200 -runtime=60 -group_reporting -name=mytest
+bw=152261KB/s, iops=9516 
+
+ fio -filename=./fiofile -direct=1 -iodepth 24 -thread -rw=randwrite -ioengine=libaio -bs=16k -size=20G -numjobs=200 -runtime=60 -group_reporting -name=myte
+bw=132853KB/s, iops=8303
+
+
+chunk size=64k
+fio -filename=./fiofile -direct=1 -iodepth 12 -thread -rw=randwrite -ioengine=libaio -bs=16k -size=20G -numjobs=200 -runtime=60 -group_reporting -name=mytest
+ bw=107937KB/s, iops=6746
+ 
+ iodepth=16
+ bw=106830KB/s, iops=6676
+ 
+ iodepth=20
+ bw=153545KB/s, iops=9596
+ 
+  iodepth=28
+ bw=163005KB/s, iops=10187
+ 
+ 
+ chunk size=32
+ 
+iodepth=16,
+bw=148990KB/s, iops=9311
+
+iodepth=20
+bw=151006KB/s, iops=9437
+
+iodepth=28
+bw=175340KB/s, iops=10958
+
+iodepth=28, bingfa 400
+bw=186610KB/s, iops=11663
+
+chunk size = 16
+depth=16
+bw=124317KB/s, iops=7769
+
+depth=20
+bw=170724KB/s, iops=10670
+
+depth=28
+ bw=172225KB/s, iops=10764
+ 
+ depth=28 thread=400
+ bw=135096KB/s, iops=8443
+ 
+ 
+ chunk size=8k
+ depth=16
+ bw=103953KB/s, iops=6497
+ 
+ depth=20
+ bw=105120KB/s, iops=6570 
+ 
+ depth=28
+ bw=122471KB/s, iops=7654
+ 
+ depth=31 thread=400
+ bw=123571KB/s, iops=7723
+ 
+ 
+ chunk size=4k
+ depth=16
+ bw=53695KB/s, iops=3355
+ 
+ depth=20
+ bw=73285KB/s, iops=4580
+ 
+ depth=28
+ bw=85272KB/s, iops=5329 
+ 
+ 
+ chunk size=256k
+ depth=16
+ bw=148307KB/s, iops=9269
+ 
+ depth=20
+ bw=158636KB/s, iops=9914
+ 
+ depth=28
+ bw=211415KB/s, iops=13213
+ 
+ depth=32, thread=400
+ bw=119799KB/s, iops=7487
+ 
+ chunk size=512k
+ depth=16
+  bw=139100KB/s, iops=8693
+  
+ depth=20
+bw=143048KB/s, iops=8940
+
+depth=28
+bw=173983KB/s, iops=10873
+
+depth=36, threads=400
+bw=168636KB/s, iops=10539
+
+
+--------
+base
+16,bw=109114KB/s, iops=6819
+20,bw=119099KB/s, iops=7443
+28,bw=166542KB/s, iops=10408
+36,400,  bw=146238KB/s, iops=9139
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ export bpath=/cds/dbpath
+ 
+cmake .
+-DCMAKE_INSTALL_PREFIX=${bpath} \
+-DMYSQL_DATADIR=${bpath}/var \
+-DSYSCONFDIR=${bpath}/etc  \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_MEMORY_STORAGE_ENGINE=1 \
+-DWITH_READLINE=1 \
+-DMYSQL_UNIX_ADDR=${bpath}/tmp/mysql.sock  \
+-DMYSQL_TCP_PORT=10299 \
+-DENABLED_LOCAL_INFILE=1 \
+-DWITH_PARTITION_STORAGE_ENGINE=1 \
+-DEXTRA_CHARSETS=all \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci
+
+
+
+cmake . -DCMAKE_INSTALL_PREFIX=${bpath} -DMYSQL_DATADIR=${bpath}/var -DSYSCONFDIR=${bpath}/etc  -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DWITH_READLINE=1 -DMYSQL_UNIX_ADDR=${bpath}/tmp/mysql.sock  -DMYSQL_TCP_PORT=10299 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+
+
+cmake . -DCMAKE_INSTALL_PREFIX=${bpath} -DMYSQL_DATADIR=${bpath}/var -DSYSCONFDIR=${bpath}/etc  -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE=1 -DMYSQL_UNIX_ADDR=${bpath}/tmp/mysql.sock  -DMYSQL_TCP_PORT=10299 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLATION=utf8_general_ci
+
+
+-- Running cmake version 2.8.12.2
+-- MySQL 5.6.24-72.2
+-- Packaging as: mysql-5.6.24-72.2-Linux-x86_64
+-- HAVE_VISIBILITY_HIDDEN
+-- HAVE_VISIBILITY_HIDDEN
+-- HAVE_VISIBILITY_HIDDEN
+CMake Error at cmake/readline.cmake:291 (MESSAGE):
+  WITH_EDITLINE must be bundled or system
+Call Stack (most recent call first):
+  CMakeLists.txt:417 (MYSQL_CHECK_EDITLINE)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/cds/percona-server-5.6.24-72.2/CMakeFiles/CMakeOutput.log".
+See also "/cds/percona-server-5.6.24-72.2/CMakeFiles/CMakeError.log".
+doit: line 5: -DCMAKE_INSTALL_PREFIX=/cds/dbpath: No such file or directory
+[chenhui@jianying-vm-3 percona-server-5.6.24-72.2]$ vi doit
+
+
+CMake Error at cmake/readline.cmake:271 (MESSAGE):
+  Cannot find system readline libraries.
+Call Stack (most recent call first):
+  CMakeLists.txt:417 (MYSQL_CHECK_EDITLINE)
+  
+0. mkdir /cds/dbpath, log, etc, var, tmp
+1. export bpath=/cds/dbpath
+ 
+cmake .
+-DCMAKE_INSTALL_PREFIX=${bpath} \
+-DMYSQL_DATADIR=${bpath}/var \
+-DSYSCONFDIR=${bpath}/etc  \
+-DWITH_MYISAM_STORAGE_ENGINE=1 \
+-DWITH_INNOBASE_STORAGE_ENGINE=1 \
+-DWITH_MEMORY_STORAGE_ENGINE=1 \
+-DWITH_READLINE=1 \
+-DMYSQL_UNIX_ADDR=${bpath}/tmp/mysql.sock  \
+-DMYSQL_TCP_PORT=10299 \
+-DENABLED_LOCAL_INFILE=1 \
+-DWITH_PARTITION_STORAGE_ENGINE=1 \
+-DEXTRA_CHARSETS=all \
+-DDEFAULT_CHARSET=utf8 \
+-DDEFAULT_COLLATION=utf8_general_ci
+  
+2.yum install readline-devel
+
+CMake Error at cmake/readline.cmake:271 (MESSAGE):
+  Cannot find system readline libraries.
+Call Stack (most recent call first):
+  CMakeLists.txt:417 (MYSQL_CHECK_EDITLINE)
+  
+ -DCMAKE_INSTALL_PREFIX=/cds/dbpath: No such file or directory
+ 
+3.more doit.sh 
+#!/bin/sh
+cmake . -DCMAKE_INSTALL_PREFIX=${bpath} -DMYSQL_DATADIR=${bpath}/var -DSYSCONFDIR=${bpath}/etc -DWITH_MYISAM_STORAGE_ENGINE=1 -DWITH_INNOBASE_STORAGE_ENGINE=1 -DWITH_MEMORY_STORAGE_ENGINE
+=1 -DMYSQL_UNIX_ADDR=${bpath}/tmp/mysql.sock -DMYSQL_TCP_PORT=10299 -DENABLED_LOCAL_INFILE=1 -DWITH_PARTITION_STORAGE_ENGINE=1 -DEXTRA_CHARSETS=all -DDEFAULT_CHARSET=utf8 -DDEFAULT_COLLAT
+ION=utf8_general_ci
+
+
+4.make install
+
+5. cp my.cnf
+
+6. mkdir log
+
+6.mysql_install_db --user=chenhui --basedir=${bpath} --datadir=${bpath}/var --defaults-file=${bpath}/etc/my.cnf
+
+scripts/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/home/data/mysql/data --defaults-file=/usr/local/mysql/my.cnf
+
+7.do_cmd ${bpath}/bin/mysqld_safe --defaults-file=${bpath}/etc/my.cnf --user="`whoami`" >/dev/null 2>&1 &
+
+mysqld_safe --defaults-file=${bpath}/etc/my.cnf --user="`whoami`" &
+
+8./cds/dbpath/bin/mysqladmin -u root -p password 'root'
+
+
+percona 测试结果
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           1742902
+        other:                           0
+        total:                           1742902
+    transactions:                        1742902 (914.44 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 1742902 (914.44 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1905.9714s
+    total number of events:              1742902
+    total time taken by event execution: 380821.7749
+    per-request statistics:
+         min:                                  2.55ms
+         avg:                                218.50ms
+         max:                              76806.48ms
+         approx.  95 percentile:             920.96ms
+
+Threads fairness:
+    events (avg/stddev):           8714.5100/156.25
+    execution time (avg/stddev):   1904.1089/1.19
+    
+base
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           1732607
+        other:                           0
+        total:                           1732607
+    transactions:                        1732607 (910.58 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 1732607 (910.58 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1902.7488s
+    total number of events:              1732607
+    total time taken by event execution: 380452.6598
+    per-request statistics:
+         min:                                  2.35ms
+         avg:                                219.58ms
+         max:                              82415.76ms
+         approx.  95 percentile:             879.73ms
+
+Threads fairness:
+    events (avg/stddev):           8663.0350/279.27
+    execution time (avg/stddev):   1902.2633/0.76
+    
+    
+关掉flush_single
+
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           1037430
+        other:                           0
+        total:                           1037430
+    transactions:                        1037430 (544.77 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 1037430 (544.77 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1904.3402s
+    total number of events:              1037430
+    total time taken by event execution: 380453.2298
+    per-request statistics:
+         min:                                  2.41ms
+         avg:                                366.73ms
+         max:                              45203.07ms
+         approx.  95 percentile:            1452.02ms
+
+Threads fairness:
+    events (avg/stddev):           5187.1500/117.91
+    execution time (avg/stddev):   1902.2661/1.70
+    
+    
+全异步，解决buffer_pool锁争用，并发改为100
+
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           1966842
+        other:                           0
+        total:                           1966842
+    transactions:                        1966842 (1034.06 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 1966842 (1034.06 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1902.0516s
+    total number of events:              1966842
+    total time taken by event execution: 190198.1294
+    per-request statistics:
+         min:                                  2.72ms
+         avg:                                 96.70ms
+         max:                              74855.89ms
+         approx.  95 percentile:             211.93ms
+
+Threads fairness:
+    events (avg/stddev):           19668.4200/257.71
+    execution time (avg/stddev):   1901.9813/0.00        
+    
+    
+    srv_empty_free_list_algorithm
+
+    SRV_EMPTY_FREE_LIST_BACKOFF
+
+ 
+percona 100 threads
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           1909187
+        other:                           0
+        total:                           1909187
+    transactions:                        1909187 (1004.40 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 1909187 (1004.40 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1900.8258s
+    total number of events:              1909187
+    total time taken by event execution: 189995.6241
+    per-request statistics:
+         min:                                  2.43ms
+         avg:                                 99.52ms
+         max:                              39996.84ms
+         approx.  95 percentile:             431.98ms
+
+Threads fairness:
+    events (avg/stddev):           19091.8700/220.11
+    execution time (avg/stddev):   1899.9562/0.08
+    
+       gcc -o iokiller -g -O0 -lpthread main.c
+       
+       
+-----
+percona DB on SSD，io_capacity=5000
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           6897485
+        other:                           0
+        total:                           6897485
+    transactions:                        6897485 (3630.02 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 6897485 (3630.02 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1900.1249s
+    total number of events:              6897485
+    total time taken by event execution: 379996.2414
+    per-request statistics:
+         min:                                  0.22ms
+         avg:                                 55.09ms
+         max:                                997.64ms
+         approx.  95 percentile:             207.78ms
+
+Threads fairness:
+    events (avg/stddev):           34487.4250/183.49
+    execution time (avg/stddev):   1899.9812/0.04
+    
+io_capacity=200;
+
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           6833987
+        other:                           0
+        total:                           6833987
+    transactions:                        6833987 (3596.73 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 6833987 (3596.73 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1900.0553s
+    total number of events:              6833987
+    total time taken by event execution: 379990.3705
+    per-request statistics:
+         min:                                  0.23ms
+         avg:                                 55.60ms
+         max:                                903.02ms
+         approx.  95 percentile:             203.42ms
+
+Threads fairness:
+    events (avg/stddev):           34169.9350/169.31
+    execution time (avg/stddev):   1899.9519/0.02
+    
+
+io_capacity=20000;
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           6523541
+        other:                           0
+        total:                           6523541
+    transactions:                        6523541 (3433.32 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 6523541 (3433.32 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1900.0697s
+    total number of events:              6523541
+    total time taken by event execution: 379996.7384
+    per-request statistics:
+         min:                                  0.20ms
+         avg:                                 58.25ms
+         max:                               1251.87ms
+         approx.  95 percentile:             224.87ms
+
+Threads fairness:
+    events (avg/stddev):           32617.7050/188.01
+    execution time (avg/stddev):   1899.9837/0.03
+    
+社区版本，io_capacity=200,而且tps不稳定，跳跃。
+
+
+OLTP test statistics:
+    queries performed:
+        read:                            0
+        write:                           4512124
+        other:                           0
+        total:                           4512124
+    transactions:                        4512124 (2374.49 per sec.)
+    deadlocks:                           0      (0.00 per sec.)
+    read/write requests:                 4512124 (2374.49 per sec.)
+    other operations:                    0      (0.00 per sec.)
+
+Test execution summary:
+    total time:                          1900.2516s
+    total number of events:              4512124
+    total time taken by event execution: 380004.7117
+    per-request statistics:
+         min:                                  0.24ms
+         avg:                                 84.22ms
+         max:                               7750.06ms
+         approx.  95 percentile:             405.79ms
+
+Threads fairness:
+    events (avg/stddev):           22560.6200/359.46
+    execution time (avg/stddev):   1900.0236/0.06
+    
+ 7.mysql_install_db --user=chenhui --basedir=${bpath} --datadir=${bpath}/var --defaults-file=${bpath}/etc/my.cnf
+
+scripts/mysql_install_db --user=mysql --basedir=/usr/local/mysql --datadir=/home/data/mysql/data --defaults-file=/usr/local/mysql/my.cnf
+
+8.do_cmd ${bpath}/bin/mysqld_safe --defaults-file=${bpath}/etc/my.cnf --user="`whoami`" >/dev/null 2>&1 &
+
+mysqld_safe --defaults-file=${bpath}/etc/my.cnf --user="`whoami`" &
+
+9./cds/dbpath/bin/mysqladmin -u root -p password 'root'
+
+
+
+export TERM=vt100
+
+export TEMCAP=$INFORMIXDIR/etc/termcap   
+
+
+
+
+
+
+
+
+
+
+create table test (name varchar(20),create_time timestamp);
+
+insert into test values ('gaojia','2014-01-01');
+insert into test values ('gaojia','2015-07-13');
+
+
+
+insert into test values ('gaojia','2014-01-01');
+insert into test values ('chenhui','2015-07-13');
+insert into test values ('alex','2015-07-14');
+
+
+
+create table test00 (name varchar(20));
+insert into test00 values ('gaojia');
+insert into test00 values ('chenhui');
+
+find . -name "*.h" -o -name "*.c" -o -name "*.cc" -o -name "*.cpp" -o -name "*.ic" -o -name "*.hpp" -o -name "*.cxx" -o -name "*.hxx" > cscope.files
+
+cscope -bq -i cscope.files
+ctags -R
+
