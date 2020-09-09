@@ -22,3 +22,9 @@ system
 --1.多版本读，可以日志落盘。解决log buffer撑爆的问题。
 --2.page 可以落盘多版本，解决写放大的问题。
 --3.
+
+#4.疑问
+--1.主库同时写log store和page store有什么好处？
+--2.Page Store为什么是read only？？
+--3.For each slice, there is a data structure called the Log Directory. It keeps track of the location of all log records and the versions of the pages hosted by the slice, i.e., information needed to produce pages.？？？
+--4.The bu er pool functions as a write-back cache, asynchronously  ushing dirty pages to the slice log (step 6) allowing it to apply multiple log records before writing a page to disk, fur- ther reducing the amount of I/O. ？如何实现？落盘是否有额外的控制逻辑？？看着不像多版本？只有一个最新版本。
