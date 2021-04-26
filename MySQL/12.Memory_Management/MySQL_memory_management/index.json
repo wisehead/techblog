@@ -1,0 +1,26 @@
+{
+  "version": "2.0",
+  "clipId": "1619403196",
+  "format": "md",
+  "title": "技术分享 | MySQL 内存管理初探 - 云+社区 - 腾讯云",
+  "link": "https://cloud.tencent.com/developer/article/1727167?from=information.detail.jemalloc%E5%92%8Ctcmalloc",
+  "category": "default",
+  "tags": [],
+  "created_at": "2021-04-26 10:13:16",
+  "mainPath": "index.md",
+  "paths": [
+    "index.json",
+    "a-title_技术分享-MySQL-内存管理初探-云-社区-腾讯云",
+    "assets/1619403196-ec8db2083ab4c8120073e8fdd7618734.png",
+    "assets/1619403196-b0da590f5b25a859202ee1ab8645771a.png",
+    "assets/1619403196-37a0707b51bf03bb3bf0dd861d32c8b0.png",
+    "assets/1619403196-239f187c3603590f47800335be6dd05c.png",
+    "assets/1619403196-e836833a539b1f71234ee13f483d9ab0.png",
+    "assets/1619403196-88701f297f6c75fdc0eaa08ad0df1273.png",
+    "assets/1619403196-d881da73fa9cabf9b834e7596685de5e.png",
+    "assets/1619403196-7a370c65deb6993ea9c642b8ccca0998.png",
+    "assets/1619403196-37369e2f3ad920850781e1555c508e96.png",
+    "assets/1619403196-6d8a6d02f5e3b0ff2a82c281e119495c.png",
+    "index.md"
+  ]
+}
